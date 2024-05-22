@@ -1,8 +1,8 @@
 {
-  "name": "@gammarers/aws-code-pipeline-notification-stack",
+  "name": "@gammarers/aws-code-pipeline-event-notification-stack",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yicr/aws-code-pipeline-notification-stack.git"
+    "url": "https://github.com/yicr/aws-code-pipeline-event-notification-stack.git"
   },
   "scripts": {
     "build": "npx projen build",

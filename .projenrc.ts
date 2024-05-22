@@ -7,8 +7,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   defaultReleaseBranch: 'main',
   typescriptVersion: '5.4.x',
   jsiiVersion: '5.4.x',
-  name: '@gammarers/aws-code-pipeline-notification-stack',
+  name: '@gammarers/aws-code-pipeline-event-notification-stack',
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/yicr/aws-code-pipeline-notification-stack.git',
+  repositoryUrl: 'https://github.com/yicr/aws-code-pipeline-event-notification-stack.git',
 });
 project.synth();
