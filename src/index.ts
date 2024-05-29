@@ -19,12 +19,12 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: CodePipelineEventNotificationStackProps) {
     super(scope, id, props);
 
-    const random = crypto.createHash('shake256', { outputLength: 4 })
+    const random: string = crypto.createHash('shake256', { outputLength: 4 })
       .update(cdk.Names.uniqueId(this))
       .digest('hex');
 
     // SNS Topic for notifications
-    const topic = new sns.Topic(this, 'CodePipelineNotificationTopic', {
+    const topic: sns.Topic = new sns.Topic(this, 'CodePipelineNotificationTopic', {
       topicName: `code-pipeline-event-notification-${random}-topic`,
       displayName: 'CodePipeline Event Notification Topic',
     });
@@ -37,10 +37,10 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic
     //topic.addSubscription(new subs.UrlSubscription('https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'));
 
-    const succeed = new sfn.Succeed(this, 'Succeed');
+    const succeed: sfn.Succeed = new sfn.Succeed(this, 'Succeed');
 
     // Step Functions Tasks
-    const getResourceTagMappingList = new tasks.CallAwsService(this, 'GetResourceTagMappingList', {
+    const getResourceTagMappingList: tasks.CallAwsService = new tasks.CallAwsService(this, 'GetResourceTagMappingList', {
       service: 'resourcegroupstaggingapi',
       action: 'getResources',
       parameters: {
@@ -63,7 +63,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     });
     //getTags.addCatch()
 
-    const findTagVluesPass = new sfn.Pass(this, 'FindTagVlues', {
+    const findTagVluesPass: sfn.Pass = new sfn.Pass(this, 'FindTagVlues', {
       parameters: {
         //'Find.$': "States.JsonToString($.tagsResult.Tags[?(@.Key == 'DeployNotification')])",
         //Found: "States.JsonToString($.tagsResult.Tags[?(@.Key == 'DeployNotification')])",
@@ -74,7 +74,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       resultPath: '$.Result.FindTagValues',
     });
 
-    const checkResouceTagsExist = new sfn.Choice(this, 'CheckResouceTagsExist')
+    const checkResouceTagsExist: sfn.Choice = new sfn.Choice(this, 'CheckResouceTagsExist')
       .when(sfn.Condition.isPresent('$.Result.GetResource.ResourceTagMappingList[0].Tags'),
         new sfn.Pass(this, 'TagsExist', {
           parameters: {
@@ -94,7 +94,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     //const checkArrayContains = sfn.Condition.booleanEquals('$.arrayContainsResult', true);
 
     // 配列に値が含まれているかどうかを計算するPassステート
-    const checkArrayContainsPass = new sfn.Pass(this, 'CheckArrayContains', {
+    const checkArrayContainsPass: sfn.Pass = new sfn.Pass(this, 'CheckArrayContains', {
       parameters: {
         Is: sfn.JsonPath.arrayContains(sfn.JsonPath.stringAt('$.Result.FindTagValues.Found'), 'YES'),
       },
@@ -113,7 +113,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       superseded: '🧐',
     };
 
-    const preparePipelineMessage = new sfn.Pass(this, 'PreparePipelineMessage', {
+    const preparePipelineMessage: sfn.Pass = new sfn.Pass(this, 'PreparePipelineMessage', {
       parameters: {
         Subject: sfn.JsonPath.format(`${messageStatusIcons.started} [{}] {} [{}][{}]`,
           sfn.JsonPath.stringAt('$.detail.state'),
@@ -130,7 +130,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       },
     });
 
-    const checkPipelineStateMatch = new sfn.Choice(this, 'CheckPipelineStateMatch')
+    const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(this, 'CheckPipelineStateMatch')
       .when(sfn.Condition.stringEquals('$.detail.state', 'STARTED'), preparePipelineMessage)
       .when(sfn.Condition.stringEquals('$.detail.state', 'SUCCEEDED'), preparePipelineMessage)
       .when(sfn.Condition.stringEquals('$.detail.state', 'RESUMED'), preparePipelineMessage)
@@ -146,7 +146,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
 
     checkArrayContainsPass.next(checkFoundTagMatch);
 
-    const sendNotification = new tasks.SnsPublish(this, 'SendNotification', {
+    const sendNotification: tasks.SnsPublish = new tasks.SnsPublish(this, 'SendNotification', {
       topic: topic,
       subject: sfn.JsonPath.stringAt('$.Subject'),
       message: sfn.TaskInput.fromJsonPathAt('$.Message'),
