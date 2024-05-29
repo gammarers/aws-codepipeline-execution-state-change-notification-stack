@@ -2,7 +2,7 @@
   "name": "@gammarers/aws-code-pipeline-event-notification-stack",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yicr/aws-code-pipeline-event-notification-stack.git"
+    "url": "https://github.com/gammarers/aws-code-pipeline-event-notification-stack.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -16,7 +16,6 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
-    "package:js": "npx projen package:js",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
