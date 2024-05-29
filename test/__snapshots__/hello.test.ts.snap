@@ -1,0 +1,328 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hello 1`] = `
+{
+  "Mappings": {
+    "ServiceprincipalMap": {
+      "af-south-1": {
+        "states": "states.af-south-1.amazonaws.com",
+      },
+      "ap-east-1": {
+        "states": "states.ap-east-1.amazonaws.com",
+      },
+      "ap-northeast-1": {
+        "states": "states.ap-northeast-1.amazonaws.com",
+      },
+      "ap-northeast-2": {
+        "states": "states.ap-northeast-2.amazonaws.com",
+      },
+      "ap-northeast-3": {
+        "states": "states.ap-northeast-3.amazonaws.com",
+      },
+      "ap-south-1": {
+        "states": "states.ap-south-1.amazonaws.com",
+      },
+      "ap-south-2": {
+        "states": "states.ap-south-2.amazonaws.com",
+      },
+      "ap-southeast-1": {
+        "states": "states.ap-southeast-1.amazonaws.com",
+      },
+      "ap-southeast-2": {
+        "states": "states.ap-southeast-2.amazonaws.com",
+      },
+      "ap-southeast-3": {
+        "states": "states.ap-southeast-3.amazonaws.com",
+      },
+      "ap-southeast-4": {
+        "states": "states.ap-southeast-4.amazonaws.com",
+      },
+      "ca-central-1": {
+        "states": "states.ca-central-1.amazonaws.com",
+      },
+      "cn-north-1": {
+        "states": "states.cn-north-1.amazonaws.com",
+      },
+      "cn-northwest-1": {
+        "states": "states.cn-northwest-1.amazonaws.com",
+      },
+      "eu-central-1": {
+        "states": "states.eu-central-1.amazonaws.com",
+      },
+      "eu-central-2": {
+        "states": "states.eu-central-2.amazonaws.com",
+      },
+      "eu-north-1": {
+        "states": "states.eu-north-1.amazonaws.com",
+      },
+      "eu-south-1": {
+        "states": "states.eu-south-1.amazonaws.com",
+      },
+      "eu-south-2": {
+        "states": "states.eu-south-2.amazonaws.com",
+      },
+      "eu-west-1": {
+        "states": "states.eu-west-1.amazonaws.com",
+      },
+      "eu-west-2": {
+        "states": "states.eu-west-2.amazonaws.com",
+      },
+      "eu-west-3": {
+        "states": "states.eu-west-3.amazonaws.com",
+      },
+      "il-central-1": {
+        "states": "states.il-central-1.amazonaws.com",
+      },
+      "me-central-1": {
+        "states": "states.me-central-1.amazonaws.com",
+      },
+      "me-south-1": {
+        "states": "states.me-south-1.amazonaws.com",
+      },
+      "sa-east-1": {
+        "states": "states.sa-east-1.amazonaws.com",
+      },
+      "us-east-1": {
+        "states": "states.us-east-1.amazonaws.com",
+      },
+      "us-east-2": {
+        "states": "states.us-east-2.amazonaws.com",
+      },
+      "us-gov-east-1": {
+        "states": "states.us-gov-east-1.amazonaws.com",
+      },
+      "us-gov-west-1": {
+        "states": "states.us-gov-west-1.amazonaws.com",
+      },
+      "us-iso-east-1": {
+        "states": "states.amazonaws.com",
+      },
+      "us-iso-west-1": {
+        "states": "states.amazonaws.com",
+      },
+      "us-isob-east-1": {
+        "states": "states.amazonaws.com",
+      },
+      "us-west-1": {
+        "states": "states.us-west-1.amazonaws.com",
+      },
+      "us-west-2": {
+        "states": "states.us-west-2.amazonaws.com",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "CodePipelineNotificationTopic51FFA519": {
+      "Properties": {
+        "DisplayName": "CodePipeline Event Notification Topic",
+        "TopicName": "code-pipeline-event-notification-ecebfe7c-topic",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "CodePipelineNotificationTopicfooexamplecomA65A6538": {
+      "Properties": {
+        "Endpoint": "foo@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "CodePipelineNotificationTopic51FFA519",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "Rule4C995B7F": {
+      "Properties": {
+        "EventPattern": {
+          "detail-type": [
+            "CodePipeline Pipeline Execution State Change",
+          ],
+          "source": [
+            "aws.codepipeline",
+          ],
+        },
+        "Name": "codepipeline-event-catch-ecebfe7c-rule",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "StateMachine2E01A3A5",
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "StateMachineEventsRoleDBCDECD1",
+                "Arn",
+              ],
+            },
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "StateMachine2E01A3A5": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "StateMachineRoleDefaultPolicyDF1E6607",
+        "StateMachineRoleB840431D",
+      ],
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"GetResourceTagMappingList","States":{"GetResourceTagMappingList":{"Next":"CheckResouceTagsExist","Type":"Task","ResultPath":"$.Result.GetResource","Resource":"arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::aws-sdk:resourcegroupstaggingapi:getResources","Parameters":{"ResourceARNList.$":"$.resources"}},"CheckResouceTagsExist":{"Type":"Choice","Choices":[{"Variable":"$.Result.GetResource.ResourceTagMappingList[0].Tags","IsPresent":true,"Next":"TagsExist"}],"Default":"NoTagsFound"},"NoTagsFound":{"Type":"Pass","Comment":"This Reouces is not set Tags","End":true},"TagsExist":{"Type":"Pass","ResultPath":"$.Result.GetTags","Parameters":{"Tags.$":"$.Result.GetResource.ResourceTagMappingList[0].Tags"},"Next":"FindTagVlues"},"FindTagVlues":{"Type":"Pass","ResultPath":"$.Result.FindTagValues","Parameters":{"Found.$":"$.Result.GetTags.Tags[?(@.Key == 'DeployNotification')].Value"},"Next":"CheckArrayContains"},"CheckArrayContains":{"Type":"Pass","ResultPath":"$.Result.ContainTag","Parameters":{"Is.$":"States.ArrayContains($.Result.FindTagValues.Found, 'YES')"},"Next":"CheckFoundTagMatch"},"CheckFoundTagMatch":{"Type":"Choice","Choices":[{"Variable":"$.Result.ContainTag.Is","BooleanEquals":true,"Next":"CheckPipelineStateMatch"}],"Default":"NoMatchPipelineState"},"NoMatchPipelineState":{"Type":"Pass","End":true},"CheckPipelineStateMatch":{"Type":"Choice","Choices":[{"Variable":"$.detail.state","StringEquals":"STARTED","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"SUCCEEDED","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"RESUMED","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"FAILED","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"STOPPING","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"STOPPED","Next":"PreparePipelineMessage"},{"Variable":"$.detail.state","StringEquals":"SUPERSEDED","Next":"PreparePipelineMessage"}],"Default":"NoMatchValue"},"NoMatchValue":{"Type":"Pass","End":true},"PreparePipelineMessage":{"Type":"Pass","Parameters":{"Subject.$":"States.Format('🥳 [{}] {} [{}][{}]', $.detail.state, $.detail.pipeline, $.account, $.region)","Message.$":"States.Format('Account : {}\\nRegion : {}\\nPipeline :  {}\\nState : {}', $.account, $.region, $.detail.pipeline, $.detail.state)"},"Next":"SendNotification"},"SendNotification":{"Next":"Succeed","Type":"Task","ResultPath":"$.snsResult","Resource":"arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::sns:publish","Parameters":{"TopicArn":"",
+              {
+                "Ref": "CodePipelineNotificationTopic51FFA519",
+              },
+              "","Message.$":"$.Message","Subject.$":"$.Subject"}},"Succeed":{"Type":"Succeed"}},"TimeoutSeconds":300}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "StateMachineRoleB840431D",
+            "Arn",
+          ],
+        },
+        "StateMachineName": "codepipeline-event-notification-ecebfe7c-state-machine",
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "StateMachineEventsRoleDBCDECD1": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "StateMachineEventsRoleDefaultPolicyFB602CA9": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "StateMachine2E01A3A5",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "StateMachineEventsRoleDefaultPolicyFB602CA9",
+        "Roles": [
+          {
+            "Ref": "StateMachineEventsRoleDBCDECD1",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "StateMachineRoleB840431D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::FindInMap": [
+                    "ServiceprincipalMap",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    "states",
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "StateMachineRoleDefaultPolicyDF1E6607": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "tag:GetResources",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "CodePipelineNotificationTopic51FFA519",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "StateMachineRoleDefaultPolicyDF1E6607",
+        "Roles": [
+          {
+            "Ref": "StateMachineRoleB840431D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
