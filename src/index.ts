@@ -114,9 +114,8 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     };
 
     const createPreparePipelineMessageSubject = ((statusIcon: string) => {
-      return sfn.JsonPath.format(`${statusIcon} [{}] {} [{}][{}]`,
+      return sfn.JsonPath.format(`${statusIcon} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]`,
         sfn.JsonPath.stringAt('$.detail.state'),
-        sfn.JsonPath.stringAt('$.detail.pipeline'),
         sfn.JsonPath.stringAt('$.account'),
         sfn.JsonPath.stringAt('$.region'),
       );
