@@ -12,7 +12,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   keywords: ['aws', 'cdk', 'codepipeline', 'notification', 'email'],
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-event-notification-stack.git',
-  releaseToNpm: false, // temporary
+  majorVersion: 1,
+  releaseToNpm: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
   depsUpgrade: true,
   depsUpgradeOptions: {
