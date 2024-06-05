@@ -13,5 +13,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   releaseToNpm: false, // temporary
   depsUpgrade: false, // temporary
   minNodeVersion: '18.0.0',
+  workflowNodeVersion: '22.2.0',
 });
 project.synth();
