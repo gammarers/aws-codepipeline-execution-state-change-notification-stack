@@ -1,5 +1,5 @@
 {
-  "name": "@gammarers/aws-code-pipelineevent-notification-stack",
+  "name": "@gammarers/aws-codepipeline-event-notification-stack",
   "repository": {
     "type": "git",
     "url": "https://github.com/gammarers/aws-codepipeline-event-notification-stack.git"
