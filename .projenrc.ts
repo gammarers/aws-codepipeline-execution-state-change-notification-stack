@@ -12,7 +12,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-event-notification-stack.git',
   releaseToNpm: false, // temporary
   npmAccess: javascript.NpmAccess.PUBLIC,
-  depsUpgrade: false, // temporary
+  depsUpgrade: true,
+  depsUpgradeOptions: {
+    workflowOptions: {
+      labels: ['auto-approve', 'auto-merge'],
+      schedule: javascript.UpgradeDependenciesSchedule.expressions(['0 18 * * 5']), // every sunday (JST/MON:03:00)
+    },
+  },
   minNodeVersion: '18.0.0',
   workflowNodeVersion: '22.2.0',
 });
