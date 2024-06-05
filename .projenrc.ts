@@ -12,5 +12,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-event-notification-stack.git',
   releaseToNpm: false, // temporary
   depsUpgrade: false, // temporary
+  minNodeVersion: '18.0.0',
 });
 project.synth();
