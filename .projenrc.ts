@@ -8,6 +8,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   typescriptVersion: '5.3.x',
   jsiiVersion: '5.3.x',
   name: '@gammarers/aws-codepipeline-event-notification-stack',
+  description: 'AWS CodePipeline Event(started,succeeded,resumed,failed,stopping,stopped,superseded) Notification',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-event-notification-stack.git',
   releaseToNpm: false, // temporary
