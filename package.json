@@ -61,7 +61,11 @@
     "constructs": "^10.0.5"
   },
   "keywords": [
-    "cdk"
+    "aws",
+    "cdk",
+    "codepipeline",
+    "email",
+    "notification"
   ],
   "engines": {
     "node": ">= 18.0.0"

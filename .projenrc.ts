@@ -9,6 +9,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jsiiVersion: '5.3.x',
   name: '@gammarers/aws-codepipeline-event-notification-stack',
   description: 'AWS CodePipeline Event(started,succeeded,resumed,failed,stopping,stopped,superseded) Notification',
+  keywords: ['aws', 'cdk', 'codepipeline', 'notification', 'email'],
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-event-notification-stack.git',
   releaseToNpm: false, // temporary
