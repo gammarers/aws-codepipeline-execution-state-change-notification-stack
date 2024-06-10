@@ -37,8 +37,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
-    "@typescript-eslint/eslint-plugin": "^6",
-    "@typescript-eslint/parser": "^6",
+    "@typescript-eslint/eslint-plugin": "^7",
+    "@typescript-eslint/parser": "^7",
     "aws-cdk-lib": "2.100.0",
     "constructs": "10.0.5",
     "eslint": "^8",
@@ -78,6 +78,7 @@
   },
   "version": "0.0.0",
   "jest": {
+    "coverageProvider": "v8",
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
       "<rootDir>/@(test|src)/**/*(*.)@(spec|test).ts?(x)"
