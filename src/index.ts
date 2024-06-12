@@ -164,7 +164,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     const stateMachine: sfn.StateMachine = new sfn.StateMachine(this, 'StateMachine', {
       stateMachineName: `codepipeline-event-notification-${random}-state-machine`,
       timeout: cdk.Duration.minutes(5),
-      definition: getResourceTagMappingList,
+      definitionBody: sfn.DefinitionBody.fromChainable(getResourceTagMappingList),
     });
 
     // EventBridge Rule
