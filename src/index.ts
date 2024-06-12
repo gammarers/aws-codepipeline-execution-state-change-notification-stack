@@ -121,7 +121,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       );
     });
 
-    const prepareStartedPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStartedPipelineMessage', {
+    const preparePipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStartedPipelineMessage', {
       parameters: {
         Subject: createPreparePipelineMessageSubject(messageStatusIcons.started),
         Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
@@ -133,86 +133,14 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       },
     });
 
-    const prepareSucceededdPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareSucceededdPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.succeeded),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
-    const prepareResumedPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareResumedPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.resumed),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
-    const prepareFailedPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareFailedPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.failed),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
-    const prepareStoppingPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStoppingPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.stopping),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
-    const prepareStoppedPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStoppedPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.stopped),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
-    const prepareSupersededPipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareSupersededPipelineMessage', {
-      parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.superseded),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
-          sfn.JsonPath.stringAt('$.account'),
-          sfn.JsonPath.stringAt('$.region'),
-          sfn.JsonPath.stringAt('$.detail.pipeline'),
-          sfn.JsonPath.stringAt('$.detail.state'),
-        ),
-      },
-    });
-
     const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(this, 'CheckPipelineStateMatch')
-      .when(sfn.Condition.stringEquals('$.detail.state', 'STARTED'), prepareStartedPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'SUCCEEDED'), prepareSucceededdPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'RESUMED'), prepareResumedPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'FAILED'), prepareFailedPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'STOPPING'), prepareStoppingPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'STOPPED'), prepareStoppedPipelineMessage)
-      .when(sfn.Condition.stringEquals('$.detail.state', 'SUPERSEDED'), prepareSupersededPipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'STARTED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'SUCCEEDED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'RESUMED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'FAILED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'STOPPING'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'STOPPED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.detail.state', 'SUPERSEDED'), preparePipelineMessage)
       .otherwise(new sfn.Pass(this, 'NoMatchValue'));
 
     const checkFoundTagMatch = new sfn.Choice(this, 'CheckFoundTagMatch')
@@ -228,13 +156,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       resultPath: '$.snsResult',
     });
 
-    prepareStartedPipelineMessage.next(sendNotification);
-    prepareSucceededdPipelineMessage.next(sendNotification);
-    prepareResumedPipelineMessage.next(sendNotification);
-    prepareFailedPipelineMessage.next(sendNotification);
-    prepareStoppingPipelineMessage.next(sendNotification);
-    prepareStoppedPipelineMessage.next(sendNotification);
-    prepareSupersededPipelineMessage.next(sendNotification);
+    preparePipelineMessage.next(sendNotification);
 
     sendNotification.next(succeed);
 
