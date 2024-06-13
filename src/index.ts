@@ -37,6 +37,19 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic
     //topic.addSubscription(new subs.UrlSubscription('https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'));
 
+    const initPipelineStateEmojisdefinition: sfn.Pass = new sfn.Pass(this, 'InitPipelineStateEmojidefinition', {
+      result: sfn.Result.fromObject([
+        { name: 'STARTED', emoji: '🥳' },
+        { name: 'SUCCEEDED', emoji: '🤩' },
+        { name: 'RESUMED', emoji: '🤔' },
+        { name: 'FAILED', emoji: '😫' },
+        { name: 'STOPPING', emoji: '😮' },
+        { name: 'STOPPED', emoji: '😌' },
+        { name: 'SUPERSEDED', emoji: '🧐' },
+      ]),
+      resultPath: '$.Definition.StateEmojis',
+    });
+
     const succeed: sfn.Succeed = new sfn.Succeed(this, 'Succeed');
 
     // Step Functions Tasks
@@ -62,6 +75,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
       //      },
     });
     //getTags.addCatch()
+    initPipelineStateEmojisdefinition.next(getResourceTagMappingList);
 
     const findTagVluesPass: sfn.Pass = new sfn.Pass(this, 'FindTagVlues', {
       parameters: {
@@ -103,27 +117,14 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
 
     findTagVluesPass.next(checkArrayContainsPass);
 
-    const messageStatusIcons = {
-      started: '🥳',
-      succeeded: '🤩',
-      resumed: '🤔',
-      failed: '😫',
-      stopping: '😮',
-      stopped: '😌',
-      superseded: '🧐',
-    };
-
-    const createPreparePipelineMessageSubject = ((statusIcon: string) => {
-      return sfn.JsonPath.format(`${statusIcon} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]`,
-        sfn.JsonPath.stringAt('$.detail.state'),
-        sfn.JsonPath.stringAt('$.account'),
-        sfn.JsonPath.stringAt('$.region'),
-      );
-    });
-
     const preparePipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStartedPipelineMessage', {
       parameters: {
-        Subject: createPreparePipelineMessageSubject(messageStatusIcons.started),
+        Subject: sfn.JsonPath.format('{} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]',
+          sfn.JsonPath.arrayGetItem(sfn.JsonPath.stringAt('$.Definition.StateEmojis[?(@.name == $.detail.state)].emoji'), 0),
+          sfn.JsonPath.stringAt('$.detail.state'),
+          sfn.JsonPath.stringAt('$.account'),
+          sfn.JsonPath.stringAt('$.region'),
+        ),
         Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
           sfn.JsonPath.stringAt('$.account'),
           sfn.JsonPath.stringAt('$.region'),
@@ -164,7 +165,7 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     const stateMachine: sfn.StateMachine = new sfn.StateMachine(this, 'StateMachine', {
       stateMachineName: `codepipeline-event-notification-${random}-state-machine`,
       timeout: cdk.Duration.minutes(5),
-      definitionBody: sfn.DefinitionBody.fromChainable(getResourceTagMappingList),
+      definitionBody: sfn.DefinitionBody.fromChainable(initPipelineStateEmojisdefinition),
     });
 
     // EventBridge Rule
