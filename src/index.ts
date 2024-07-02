@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
+import { CodePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codepipeline-execution-state-change-detection-event-rule';
 import * as cdk from 'aws-cdk-lib';
-import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
@@ -169,13 +169,11 @@ export class CodePipelineEventNotificationStack extends cdk.Stack {
     });
 
     // EventBridge Rule
-    new events.Rule(this, 'Rule', {
+    new CodePipelineExecutionStateChangeDetectionEventRule(this, 'Rule', {
       ruleName: `codepipeline-event-catch-${random}-rule`,
-      eventPattern: {
-        source: ['aws.codepipeline'],
-        detailType: ['CodePipeline Pipeline Execution State Change'],
-      },
-      targets: [new targets.SfnStateMachine(stateMachine)],
+      targets: [
+        new targets.SfnStateMachine(stateMachine),
+      ],
     });
   }
 }
