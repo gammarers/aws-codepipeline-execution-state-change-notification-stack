@@ -361,9 +361,9 @@
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
 "@gammarers/aws-codepipeline-execution-state-change-detection-event-rule@1.1.x":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@gammarers/aws-codepipeline-execution-state-change-detection-event-rule/-/aws-codepipeline-execution-state-change-detection-event-rule-1.1.2.tgz#187404944db3499a0c92ccb6db0d11e306fba9e4"
-  integrity sha512-Nyf4hS5+kepk39AMNXw7LXb0VznSYWZCwOfMROjnphVD5FiEALvEor8l7Rmh3uMOofMTmw/wX71C+XFvR7t7Ag==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-codepipeline-execution-state-change-detection-event-rule/-/aws-codepipeline-execution-state-change-detection-event-rule-1.1.3.tgz#fada7f74d210172d56912a50225640d6f77223b9"
+  integrity sha512-0Zlf9WA1nz+CgCpFgYtpE8s1fIuzMlI8OREfCmNCuZBIquOi83VZLiuW61/nfITvxOSznKRnq9oeXtYfQcJGwQ==
 
 "@humanwhocodes/config-array@^0.11.14":
   version "0.11.14"
@@ -971,9 +971,9 @@ acorn-walk@^8.1.1:
     acorn "^8.11.0"
 
 acorn@^8.11.0, acorn@^8.4.1, acorn@^8.9.0:
-  version "8.12.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.12.0.tgz#1627bfa2e058148036133b8d9b51a700663c294c"
-  integrity sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==
+  version "8.12.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.12.1.tgz#71616bdccbe25e27a54439e0046e89ca76df2248"
+  integrity sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==
 
 add-stream@^1.0.0:
   version "1.0.0"
@@ -1325,9 +1325,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001629:
-  version "1.0.30001639"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001639.tgz#972b3a6adeacdd8f46af5fc7f771e9639f6c1521"
-  integrity sha512-eFHflNTBIlFwP2AIKaYuBQN/apnUoKNhBdza8ZnW/h2di4LCZ4xFqYlxUxo+LQ76KFI1PGcC1QDxMbxTZpSCAg==
+  version "1.0.30001640"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001640.tgz#32c467d4bf1f1a0faa63fc793c2ba81169e7652f"
+  integrity sha512-lA4VMpW0PSUrFnkmVuEKBUovSWKhj7puyCg8StBChgu298N1AtuF1sKWEvfDuimSEDbhlb/KqPKC3fs1HbuQUA==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -1869,9 +1869,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.796:
-  version "1.4.816"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.816.tgz#3624649d1e7fde5cdbadf59d31a524245d8ee85f"
-  integrity sha512-EKH5X5oqC6hLmiS7/vYtZHZFTNdhsYG5NVPRN6Yn0kQHNBlT59+xSM8HBy66P5fxWpKgZbPqb+diC64ng295Jw==
+  version "1.4.817"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.817.tgz#da9808e35212408cf4052b51679786fcb54fec39"
+  integrity sha512-3znu+lZMIbTe8ZOs360OMJvVroVF2NpNI8T5jfLnDetVvj0uNmIucZzQVYMSJfsu9f47Ssox1Gt46PR+R+1JUg==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -4069,10 +4069,10 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-projen@^0.82.8:
-  version "0.82.8"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.82.8.tgz#e7afa3491d7daaaf491c9c3add810e6caa478c52"
-  integrity sha512-/YpYZf4g0/pck2tr34a4gpOveCV1xbCfdDT+H4Xq8qQzF0IbcDVsoV1kZXPcyzVWUyqHFT2/ORUeocV+Hka8tQ==
+projen@^0.84.0:
+  version "0.84.0"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.84.0.tgz#d142fdbab40bc2a952b6d1ccb240914d773d58df"
+  integrity sha512-HXbtJiZVJyouVGbwBHMYD1REOdkmekvfrcJLH0G0ky6A1PinM5/SVm0oDccJVZpxIbZHbctSyAMLirhvtJh9wg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -4890,9 +4890,9 @@ typescript@5.4.x, typescript@~5.4:
   integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
 
 typescript@next:
-  version "5.6.0-dev.20240701"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240701.tgz#fee76140e3b1c4d37014ffee38c79ba245be938e"
-  integrity sha512-x8jIDJiBfgaT4/vpz3FwNKa2dYQsLZXKWsaCeyQWrXzkbKyirrGdVuOr3nbz0bcvteZNJ2BCZPDlAiwsX/pENw==
+  version "5.6.0-dev.20240705"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240705.tgz#ed36b36611136af840fe90d5f82289ff2d8e693b"
+  integrity sha512-Z1GBiSYZqdb2B4kkFvX6sDIFZzCGD7+RtHI2/ci9IIZA1CPS6qzbiB/D2RmPupSCXpQ8FRqax1RU0tlD/n70oA==
 
 uglify-js@^3.1.4:
   version "3.18.0"
@@ -4925,9 +4925,9 @@ universalify@^2.0.0:
   integrity sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==
 
 update-browserslist-db@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.16.tgz#f6d489ed90fb2f07d67784eb3f53d7891f736356"
-  integrity sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.1.0.tgz#7ca61c0d8650766090728046e416a8cde682859e"
+  integrity sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==
   dependencies:
     escalade "^3.1.2"
     picocolors "^1.0.1"
