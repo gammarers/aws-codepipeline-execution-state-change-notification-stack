@@ -112,36 +112,59 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     getResourceTagMappingList.next(checkTagFilterArnsContain);
 
-    // 👇 Make send default & email message
-    const preparePipelineMessage: sfn.Pass = new sfn.Pass(this, 'PrepareStartedPipelineMessage', {
+    // 👇 Create pipeline URL
+    const generatePipelineUrl = new sfn.Pass(this, 'GeneratePipelineUrl', {
+      resultPath: '$.Generate.PipelineUrl',
       parameters: {
-        Subject: sfn.JsonPath.format('{} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]',
+        Value: sfn.JsonPath.format('https://{}.console.aws.amazon.com/codesuite/codepipeline/pipelines/{}/view?region={}',
+          sfn.JsonPath.stringAt('$.event.region'),
+          sfn.JsonPath.stringAt('$.event.detail.pipeline'),
+          sfn.JsonPath.stringAt('$.event.region'),
+        ),
+      },
+    });
+
+    const generateTopicSubject = new sfn.Pass(this, 'GenerateTopicSubject', {
+      resultPath: '$.Generate.Topic.Subject',
+      parameters: {
+        Value: sfn.JsonPath.format('{} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]',
           sfn.JsonPath.arrayGetItem(sfn.JsonPath.stringAt('$.Definition.StateEmojis[?(@.name == $.event.detail.state)].emoji'), 0),
           sfn.JsonPath.stringAt('$.event.detail.state'),
           sfn.JsonPath.stringAt('$.event.account'),
           sfn.JsonPath.stringAt('$.event.region'),
         ),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}',
+      },
+    });
+
+    generatePipelineUrl.next(generateTopicSubject);
+
+    // 👇 Make send default & email message
+    const generateTopicMessage: sfn.Pass = new sfn.Pass(this, 'GeneratedPipelineMessage', {
+      resultPath: '$.Generate.Topic.Message',
+      parameters: {
+        Value: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}\nURL : {}\n',
           sfn.JsonPath.stringAt('$.event.account'),
           sfn.JsonPath.stringAt('$.event.region'),
           sfn.JsonPath.stringAt('$.event.detail.pipeline'),
           sfn.JsonPath.stringAt('$.event.detail.state'),
           sfn.JsonPath.stringAt('$.event.time'),
+          sfn.JsonPath.stringAt('$.Generate.PipelineUrl.Value'),
         ),
       },
     });
-    // todo: pipelineへのURLも表示する
-    // https://ap-northeast-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/frontend-web-app-deploy-pipeline/view?region=ap-northeast-1
+
+    generateTopicSubject.next(generateTopicMessage);
+
 
     // 👇 Choice state for message
     const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(this, 'CheckPipelineStateMatch')
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STARTED'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUCCEEDED'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'RESUMED'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'FAILED'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPING'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPED'), preparePipelineMessage)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUPERSEDED'), preparePipelineMessage)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STARTED'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUCCEEDED'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'RESUMED'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'FAILED'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPING'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPED'), generatePipelineUrl)
+      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUPERSEDED'), generatePipelineUrl)
       .otherwise(new sfn.Pass(this, 'NoMatchValue'));
 
     const checkFoundTagMatch = new sfn.Choice(this, 'CheckFoundTagMatch')
@@ -153,12 +176,12 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
     // 👇 Send notification task
     const sendNotification: tasks.SnsPublish = new tasks.SnsPublish(this, 'SendNotification', {
       topic: topic,
-      subject: sfn.JsonPath.stringAt('$.Subject'),
-      message: sfn.TaskInput.fromJsonPathAt('$.Message'),
+      subject: sfn.JsonPath.stringAt('$.Generate.Topic.Subject.Value'),
+      message: sfn.TaskInput.fromJsonPathAt('$.Generate.Topic.Message.Value'),
       resultPath: '$.snsResult',
     });
 
-    preparePipelineMessage.next(sendNotification);
+    generateTopicMessage.next(sendNotification);
 
     sendNotification.next(succeed);
 
