@@ -121,14 +121,17 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
           sfn.JsonPath.stringAt('$.event.account'),
           sfn.JsonPath.stringAt('$.event.region'),
         ),
-        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline :  {}\nState : {}',
+        Message: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}',
           sfn.JsonPath.stringAt('$.event.account'),
           sfn.JsonPath.stringAt('$.event.region'),
           sfn.JsonPath.stringAt('$.event.detail.pipeline'),
           sfn.JsonPath.stringAt('$.event.detail.state'),
+          sfn.JsonPath.stringAt('$.event.time'),
         ),
       },
     });
+    // todo: pipelineへのURLも表示する
+    // https://ap-northeast-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/frontend-web-app-deploy-pipeline/view?region=ap-northeast-1
 
     // 👇 Choice state for message
     const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(this, 'CheckPipelineStateMatch')
