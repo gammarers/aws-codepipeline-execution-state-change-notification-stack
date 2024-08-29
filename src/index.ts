@@ -139,7 +139,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
     generatePipelineUrl.next(generateTopicSubject);
 
     // 👇 Make send default & email message
-    const generateTopicMessage: sfn.Pass = new sfn.Pass(this, 'GeneratedPipelineMessage', {
+    const generateTopicTextMessage: sfn.Pass = new sfn.Pass(this, 'GeneratedPipelineMessage', {
       resultPath: '$.Generate.Topic.Message',
       parameters: {
         Value: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}\nURL : {}\n',
@@ -153,23 +153,27 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
       },
     });
 
-    generateTopicSubject.next(generateTopicMessage);
-
+    generateTopicSubject.next(generateTopicTextMessage);
 
     // 👇 Choice state for message
     const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(this, 'CheckPipelineStateMatch')
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STARTED'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUCCEEDED'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'RESUMED'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'FAILED'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPING'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'STOPPED'), generatePipelineUrl)
-      .when(sfn.Condition.stringEquals('$.event.detail.state', 'SUPERSEDED'), generatePipelineUrl)
-      .otherwise(new sfn.Pass(this, 'NoMatchValue'));
+      .when(
+        sfn.Condition.or(
+          sfn.Condition.stringEquals('$.event.detail.state', 'STARTED'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'SUCCEEDED'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'RESUMED'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'FAILED'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'STOPPING'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'STOPPED'),
+          sfn.Condition.stringEquals('$.event.detail.state', 'SUPERSEDED'),
+        ),
+        generatePipelineUrl,
+      )
+      .otherwise(new sfn.Pass(this, 'UnMatchStatus'));
 
     const checkFoundTagMatch = new sfn.Choice(this, 'CheckFoundTagMatch')
       .when(sfn.Condition.booleanEquals('$.Result.TagFilterArnsContain.Is', true), checkPipelineStateMatch)
-      .otherwise(new sfn.Pass(this, 'NoMatchPipelineState'));
+      .otherwise(new sfn.Pass(this, 'UnMatchPipelineTagFilter'));
 
     checkTagFilterArnsContain.next(checkFoundTagMatch);
 
@@ -181,7 +185,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
       resultPath: '$.snsResult',
     });
 
-    generateTopicMessage.next(sendNotification);
+    generateTopicTextMessage.next(sendNotification);
 
     sendNotification.next(succeed);
 
