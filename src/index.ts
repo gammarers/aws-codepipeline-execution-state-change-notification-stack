@@ -4,7 +4,6 @@ import * as cdk from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as tasks from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
@@ -35,18 +34,26 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
       .digest('hex');
 
     // 👇 SNS Topic for notifications
-    const topic: sns.Topic = new sns.Topic(this, 'CodePipelineNotificationTopic', {
-      topicName: `codepipeline-execution-state-change-notification-${random}-topic`,
+    const topic: sns.Topic = new sns.Topic(this, 'NotificationTopic', {
+      topicName: `codepipeline-execution-state-notification-change-${random}-topic`,
       displayName: 'CodePipeline Execution state change Notification Topic',
     });
 
+    //    const secret = cdk.SecretValue.secretsManager('my-email-array-secret');
+    //    const emails = JSON.parse(secret.unsafeUnwrap()) as string[];
+
     // Subscribe an email endpoint to the topic
-    for (const email of props.notifications.emails ?? []) {
-      topic.addSubscription(new subscriptions.EmailSubscription(email));
+    const emails = props.notifications.emails ?? [];
+    for (const [index, value] of emails.entries()) {
+      new sns.Subscription(this, `SubscriptionEmail${index.toString().padStart(3, '0')}`, {
+        topic,
+        protocol: sns.SubscriptionProtocol.EMAIL,
+        endpoint: value,
+      });
     }
 
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic
-    //topic.addSubscription(new subs.UrlSubscription('https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'));
+    // topic.addSubscription(new subs.UrlSubscription('https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'));
 
     const initPipelineStateEmojisDefinition: sfn.Pass = new sfn.Pass(this, 'InitPipelineStateEmojiDefinition', {
       result: sfn.Result.fromObject([
