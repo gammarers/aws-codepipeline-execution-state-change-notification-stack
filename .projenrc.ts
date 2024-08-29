@@ -8,7 +8,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   typescriptVersion: '5.4.x',
   jsiiVersion: '5.4.x',
   name: '@gammarers/aws-codepipeline-execution-state-change-notification-stack',
-  description: 'AWS CodePipeline Event(started,succeeded,resumed,failed,stopping,stopped,superseded) Notification',
+  description: 'This AWS CDK Construct Stack receives all state changes of CodePipeline and sends a message to the specified notification destination when the CodePipeline is tagged with a specified tag. Therefore, you can send messages simply by adding tags without needing to configure notifications for each Pipeline.',
   keywords: ['aws', 'cdk', 'codepipeline', 'notification', 'email'],
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-execution-state-change-notification-stack.git',
