@@ -1,4 +1,4 @@
-# AWS CodePipeline Event Notification Stack
+# AWS CodePipeline Execution State Change Notification Stack
 
 [![GitHub](https://img.shields.io/github/license/gammarers/aws-codepipeline-execution-state-change-notification-stack?style=flat-square)](https://github.com/gammarers/aws-codepipeline-execution-state-change-notification-stack/blob/main/LICENSE)
 [![npm (scoped)](https://img.shields.io/npm/v/@gammarers/aws-codepipeline-execution-state-change-notification-stack?style=flat-square)](https://www.npmjs.com/package/@gammarers/aws-codepipeline-execution-state-change-notification-stack)
