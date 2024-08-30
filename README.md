@@ -34,6 +34,28 @@ pnpm add @gammarers/aws-codepipeline-execution-state-change-notification-stack
 bun add @gammarers/aws-codepipeline-execution-state-change-notification-stack
 ```
 
+## Example
+
+```typescript
+import { App } from 'aws-cdk-lib';
+import { RDSDatabaseAutoRunningStopStack } from '@gammarers/aws-rds-database-auto-running-stop-stack';
+
+const app = new App();
+
+const stack = new CodePipelineExecutionStateChangeNotificationStack(app, 'CodePipelineExecutionStateChangeNotificationStack', {
+targetResource: { // required
+  tagKey: 'PipelineExecutionStateChangeNotification', // required, Specify the tag key set in CodePipeline
+  tagValues: ['YES'], // required, Specify the tag value set in CodePipeline
+},
+notifications: {
+  emails: [ // optional (but not notification)
+    'foo@example.com',
+  ],
+},
+});
+
+```
+
 ## License
 
 This project is licensed under the Apache-2.0 License.
