@@ -35,7 +35,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     // 👇 SNS Topic for notifications
     const topic: sns.Topic = new sns.Topic(this, 'NotificationTopic', {
-      topicName: `codepipeline-execution-state-notification-change-${random}-topic`,
+      topicName: `codepipeline-execution-state-change-notification-${random}-topic`,
       displayName: 'CodePipeline Execution state change Notification Topic',
     });
 
@@ -198,14 +198,21 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     // 👇 Create State Machine
     const stateMachine: sfn.StateMachine = new sfn.StateMachine(this, 'StateMachine', {
-      stateMachineName: `codepipeline-event-notification-${random}-state-machine`,
+      stateMachineName: `codepipeline-exec-state-change-notification-${random}-machine`,
       timeout: cdk.Duration.minutes(5),
       definitionBody: sfn.DefinitionBody.fromChainable(initPipelineStateEmojisDefinition),
     });
 
+    // 👇 Rule state
+    //enabled
+    const enableRule: boolean = (() => {
+      return props?.enabled === undefined || props.enabled;
+    })();
+
     // 👇 Create EventBridge Rule
-    new CodePipelineExecutionStateChangeDetectionEventRule(this, 'Rule', {
-      ruleName: `codepipeline-event-catch-${random}-rule`,
+    new CodePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
+      ruleName: `codepipeline-exe-state-change-${random}-detection-event-rule`,
+      enabled: enableRule,
       targets: [
         new targets.SfnStateMachine(stateMachine, {
           input: events.RuleTargetInput.fromObject({
