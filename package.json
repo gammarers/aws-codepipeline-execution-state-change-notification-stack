@@ -62,7 +62,7 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@gammarers/aws-codepipeline-execution-state-change-detection-event-rule": "1.1.x"
+    "@gammarers/aws-codesuite-state-change-detection-event-rules": "^2.0.6"
   },
   "keywords": [
     "aws",

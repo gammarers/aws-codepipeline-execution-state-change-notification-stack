@@ -97,8 +97,8 @@
       "type": "peer"
     },
     {
-      "name": "@gammarers/aws-codepipeline-execution-state-change-detection-event-rule",
-      "version": "1.1.x",
+      "name": "@gammarers/aws-codesuite-state-change-detection-event-rules",
+      "version": "^2.0.6",
       "type": "runtime"
     }
   ],

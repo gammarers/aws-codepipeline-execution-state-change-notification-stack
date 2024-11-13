@@ -332,10 +332,17 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
-"@gammarers/aws-codepipeline-execution-state-change-detection-event-rule@1.1.x":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@gammarers/aws-codepipeline-execution-state-change-detection-event-rule/-/aws-codepipeline-execution-state-change-detection-event-rule-1.1.3.tgz#fada7f74d210172d56912a50225640d6f77223b9"
-  integrity sha512-0Zlf9WA1nz+CgCpFgYtpE8s1fIuzMlI8OREfCmNCuZBIquOi83VZLiuW61/nfITvxOSznKRnq9oeXtYfQcJGwQ==
+"@gammarers/aws-cdk-errors@^0.2.0":
+  version "0.2.105"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-cdk-errors/-/aws-cdk-errors-0.2.105.tgz#6bb16a2fda34f8c313aa37eddd8e69d24e11ec9b"
+  integrity sha512-4lur0yb1xy4qfpeN/eKVaGTzQ/8ZT7YO2imOrPr5P7e9y1wW3XzBx/C+Au5Us0d7qLRtGiayu0xq8lJrBxCDqw==
+
+"@gammarers/aws-codesuite-state-change-detection-event-rules@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.0.6.tgz#414559b6216a5d4e8c689a5502d1ecc8866351e2"
+  integrity sha512-uhpN9vkjIMmYZYIJIOwMb7qk4JoQEfJw15ymY1P4tMafRwnwVIzObtc5sKbJCjuHKTBvW80PKYpVS9ZBQZIDkg==
+  dependencies:
+    "@gammarers/aws-cdk-errors" "^0.2.0"
 
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
