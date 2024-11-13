@@ -13,7 +13,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-execution-state-change-notification-stack.git',
   deps: [
-    '@gammarers/aws-codepipeline-execution-state-change-detection-event-rule@1.1.x',
+    '@gammarers/aws-codesuite-state-change-detection-event-rules@^2.0.6',
   ],
   majorVersion: 2,
   releaseToNpm: true,
@@ -22,7 +22,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   depsUpgradeOptions: {
     workflowOptions: {
       labels: ['auto-approve', 'auto-merge'],
-      schedule: javascript.UpgradeDependenciesSchedule.expressions(['5 18 * * 4']), // every friday 18:05
+      schedule: javascript.UpgradeDependenciesSchedule.expressions(['12 18 * * 4']), // every friday 18:05
     },
   },
   minNodeVersion: '18.0.0',

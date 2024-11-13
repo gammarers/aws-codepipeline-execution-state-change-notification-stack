@@ -38,20 +38,20 @@ bun add @gammarers/aws-codepipeline-execution-state-change-notification-stack
 
 ```typescript
 import { App } from 'aws-cdk-lib';
-import { RDSDatabaseAutoRunningStopStack } from '@gammarers/aws-rds-database-auto-running-stop-stack';
+import { CodePipelineExecutionStateChangeNotificationStack } from '@gammarers/aws-codepipeline-execution-state-change-notification-stack';
 
 const app = new App();
 
 const stack = new CodePipelineExecutionStateChangeNotificationStack(app, 'CodePipelineExecutionStateChangeNotificationStack', {
-targetResource: { // required
-  tagKey: 'PipelineExecutionStateChangeNotification', // required, Specify the tag key set in CodePipeline
-  tagValues: ['YES'], // required, Specify the tag value set in CodePipeline
-},
-notifications: {
-  emails: [ // optional (but not notification)
-    'foo@example.com',
-  ],
-},
+  targetResource: { // required
+    tagKey: 'PipelineExecutionStateChangeNotification', // required, Specify the tag key set in CodePipeline
+    tagValues: ['YES'], // required, Specify the tag value set in CodePipeline
+  },
+  notifications: {
+    emails: [ // optional (but not notification)
+      'foo@example.com',
+    ],
+  },
 });
 
 ```
