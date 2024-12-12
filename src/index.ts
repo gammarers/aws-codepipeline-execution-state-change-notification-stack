@@ -1,12 +1,14 @@
-import * as crypto from 'crypto';
 import { CodePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
-import * as cdk from 'aws-cdk-lib';
+import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType } from '@gammarers/aws-resource-naming';
+import { Duration, Names, Stack, StackProps } from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
 import { NotificationStateMachine } from './resources/notification-state-machine';
+
+export { ResourceAutoNaming, ResourceDefaultNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType };
 
 export interface TargetResourceProperty {
   readonly tagKey: string;
@@ -16,25 +18,43 @@ export interface TargetResourceProperty {
 export interface NotificationsProperty {
   readonly emails?: string[];
 }
-export interface CodePipelineExecutionStateChangeNotificationStackProps extends cdk.StackProps {
+export interface CodePipelineExecutionStateChangeNotificationStackProps extends StackProps {
   readonly targetResource: TargetResourceProperty;
   readonly enabled?: boolean;
   readonly notifications: NotificationsProperty;
+  readonly resourceNamingOption?: ResourceNamingOption;
 }
 
-export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack {
+export interface CustomNaming {
+  readonly type: ResourceNamingType.CUSTOM;
+  readonly stateMachineName: string;
+  readonly notificationTopicName: string;
+  readonly notificationTopicDisplayName: string;
+  readonly pipelineEventDetectionRuleName: string;
+}
+
+export type ResourceNamingOption = ResourceDefaultNaming | ResourceAutoNaming | CustomNaming;
+
+export class CodePipelineExecutionStateChangeNotificationStack extends Stack {
   constructor(scope: Construct, id: string, props: CodePipelineExecutionStateChangeNotificationStackProps) {
     super(scope, id, props);
 
     // 👇 Create random 8 length string
-    const random: string = crypto.createHash('shake256', { outputLength: 4 })
-      .update(cdk.Names.uniqueId(this))
-      .digest('hex');
+    const random = ResourceNaming.createRandomString(`${Names.uniqueId(scope)}.${Names.uniqueId(this)}`);
+    // 👇 Auto naeming
+    const autoNaming = {
+      stateMachineName: `codepipeline-exec-state-change-notification-${random}-machine`,
+      notificationTopicName: `codepipeline-execution-state-change-notification-${random}-topic`,
+      notificationTopicDisplayName: 'CodePipeline Execution state change Notification Topic',
+      pipelineEventDetectionRuleName: `codepipeline-exe-state-change-${random}-detection-event-rule`,
+    };
+    // 👇 Resource Names
+    const names = ResourceNaming.naming(autoNaming, props.resourceNamingOption as ResourceNaming.ResourceNamingOption);
 
     // 👇 SNS Topic for notifications
     const topic: sns.Topic = new sns.Topic(this, 'NotificationTopic', {
-      topicName: `codepipeline-execution-state-change-notification-${random}-topic`,
-      displayName: 'CodePipeline Execution state change Notification Topic',
+      topicName: names.notificationTopicName,
+      displayName: names.notificationTopicDisplayName,
     });
 
     //    const secret = cdk.SecretValue.secretsManager('my-email-array-secret');
@@ -51,8 +71,8 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     // 👇 Create State Machine
     const stateMachine = new NotificationStateMachine(this, 'StateMachine', {
-      stateMachineName: `codepipeline-exec-state-change-notification-${random}-machine`,
-      timeout: cdk.Duration.minutes(5),
+      stateMachineName: names.stateMachineName,
+      timeout: Duration.minutes(5),
       notificationTopic: topic,
     });
 
@@ -64,7 +84,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     // 👇 Create EventBridge Rule
     new CodePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
-      ruleName: `codepipeline-exe-state-change-${random}-detection-event-rule`,
+      ruleName: names.pipelineEventDetectionRuleName,
       enabled: enableRule,
       targets: [
         new targets.SfnStateMachine(stateMachine, {
