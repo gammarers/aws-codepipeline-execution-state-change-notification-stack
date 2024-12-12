@@ -906,6 +906,7 @@ const codePipelineExecutionStateChangeNotificationStackProps: CodePipelineExecut
 | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CodePipelineExecutionStateChangeNotificationStackProps.property.notifications">notifications</a></code> | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.NotificationsProperty">NotificationsProperty</a></code> | *No description.* |
 | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CodePipelineExecutionStateChangeNotificationStackProps.property.targetResource">targetResource</a></code> | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.TargetResourceProperty">TargetResourceProperty</a></code> | *No description.* |
 | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CodePipelineExecutionStateChangeNotificationStackProps.property.enabled">enabled</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CodePipelineExecutionStateChangeNotificationStackProps.property.resourceNamingOption">resourceNamingOption</a></code> | <code>@gammarers/aws-resource-naming.ResourceDefaultNaming \| @gammarers/aws-resource-naming.ResourceAutoNaming \| <a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming">CustomNaming</a></code> | *No description.* |
 
 ---
 
@@ -1146,6 +1147,88 @@ public readonly enabled: boolean;
 ```
 
 - *Type:* boolean
+
+---
+
+##### `resourceNamingOption`<sup>Optional</sup> <a name="resourceNamingOption" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CodePipelineExecutionStateChangeNotificationStackProps.property.resourceNamingOption"></a>
+
+```typescript
+public readonly resourceNamingOption: ResourceDefaultNaming | ResourceAutoNaming | CustomNaming;
+```
+
+- *Type:* @gammarers/aws-resource-naming.ResourceDefaultNaming | @gammarers/aws-resource-naming.ResourceAutoNaming | <a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming">CustomNaming</a>
+
+---
+
+### CustomNaming <a name="CustomNaming" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming"></a>
+
+#### Initializer <a name="Initializer" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.Initializer"></a>
+
+```typescript
+import { CustomNaming } from '@gammarers/aws-codepipeline-execution-state-change-notification-stack'
+
+const customNaming: CustomNaming = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.notificationTopicDisplayName">notificationTopicDisplayName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.notificationTopicName">notificationTopicName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.pipelineEventDetectionRuleName">pipelineEventDetectionRuleName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.stateMachineName">stateMachineName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.type">type</a></code> | <code>@gammarers/aws-resource-naming.ResourceNamingType</code> | *No description.* |
+
+---
+
+##### `notificationTopicDisplayName`<sup>Required</sup> <a name="notificationTopicDisplayName" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.notificationTopicDisplayName"></a>
+
+```typescript
+public readonly notificationTopicDisplayName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `notificationTopicName`<sup>Required</sup> <a name="notificationTopicName" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.notificationTopicName"></a>
+
+```typescript
+public readonly notificationTopicName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `pipelineEventDetectionRuleName`<sup>Required</sup> <a name="pipelineEventDetectionRuleName" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.pipelineEventDetectionRuleName"></a>
+
+```typescript
+public readonly pipelineEventDetectionRuleName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `stateMachineName`<sup>Required</sup> <a name="stateMachineName" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.stateMachineName"></a>
+
+```typescript
+public readonly stateMachineName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.CustomNaming.property.type"></a>
+
+```typescript
+public readonly type: ResourceNamingType;
+```
+
+- *Type:* @gammarers/aws-resource-naming.ResourceNamingType
 
 ---
 
