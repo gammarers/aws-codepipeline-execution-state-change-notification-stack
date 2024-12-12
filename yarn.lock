@@ -372,6 +372,11 @@
   dependencies:
     "@gammarers/aws-cdk-errors" "^0.2.0"
 
+"@gammarers/aws-resource-naming@^0.10.2":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-resource-naming/-/aws-resource-naming-0.10.3.tgz#cc20e42f6fb0a98eb87c69557542e58086cb9de0"
+  integrity sha512-Ut8o8O8qcAJBTDt4nQd2fR68BClS/Th0DRLled6+WoxIxWbY0yo/e+vy5tr0J04Ka4wIuASlytF1RMAzraeKeQ==
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"

@@ -92,6 +92,11 @@
       "type": "build"
     },
     {
+      "name": "@gammarers/aws-resource-naming",
+      "version": "^0.10.2",
+      "type": "peer"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.100.0",
       "type": "peer"
@@ -104,6 +109,11 @@
     {
       "name": "@gammarers/aws-codesuite-state-change-detection-event-rules",
       "version": "^2.0.6",
+      "type": "runtime"
+    },
+    {
+      "name": "@gammarers/aws-resource-naming",
+      "version": "^0.10.2",
       "type": "runtime"
     }
   ],

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`hello 1`] = `
+exports[`Stack Default Testing Should match snapshot 1`] = `
 {
   "Mappings": {
     "ServiceprincipalMap": {
@@ -129,7 +129,6 @@ exports[`hello 1`] = `
             "aws.codepipeline",
           ],
         },
-        "Name": "codepipeline-exe-state-change-ecebfe7c-detection-event-rule",
         "State": "ENABLED",
         "Targets": [
           {
@@ -155,10 +154,6 @@ exports[`hello 1`] = `
       "Type": "AWS::Events::Rule",
     },
     "NotificationTopicEB7A0DF1": {
-      "Properties": {
-        "DisplayName": "CodePipeline Execution state change Notification Topic",
-        "TopicName": "codepipeline-execution-state-change-notification-ecebfe7c-topic",
-      },
       "Type": "AWS::SNS::Topic",
     },
     "StateMachine2E01A3A5": {
@@ -198,7 +193,6 @@ exports[`hello 1`] = `
             "Arn",
           ],
         },
-        "StateMachineName": "codepipeline-exec-state-change-notification-ecebfe7c-machine",
       },
       "Type": "AWS::StepFunctions::StateMachine",
       "UpdateReplacePolicy": "Delete",
@@ -311,16 +305,6 @@ exports[`hello 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
-    },
-    "SubscriptionEmail000D00CED5E": {
-      "Properties": {
-        "Endpoint": "foo@example.com",
-        "Protocol": "email",
-        "TopicArn": {
-          "Ref": "NotificationTopicEB7A0DF1",
-        },
-      },
-      "Type": "AWS::SNS::Subscription",
     },
   },
   "Rules": {
