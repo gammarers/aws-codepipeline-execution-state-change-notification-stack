@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
 import { NotificationStateMachine } from './resources/notification-state-machine';
 
@@ -41,12 +42,8 @@ export class CodePipelineExecutionStateChangeNotificationStack extends cdk.Stack
 
     // Subscribe an email endpoint to the topic
     const emails = props.notifications.emails ?? [];
-    for (const [index, value] of emails.entries()) {
-      new sns.Subscription(this, `SubscriptionEmail${index.toString().padStart(3, '0')}`, {
-        topic,
-        protocol: sns.SubscriptionProtocol.EMAIL,
-        endpoint: value,
-      });
+    for (const email of emails) {
+      topic.addSubscription(new subscriptions.EmailSubscription(email));
     }
 
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic

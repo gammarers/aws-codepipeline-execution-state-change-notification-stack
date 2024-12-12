@@ -161,6 +161,16 @@ exports[`hello 1`] = `
       },
       "Type": "AWS::SNS::Topic",
     },
+    "NotificationTopicfooexamplecom623834B6": {
+      "Properties": {
+        "Endpoint": "foo@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "NotificationTopicEB7A0DF1",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
     "StateMachine2E01A3A5": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
@@ -311,16 +321,6 @@ exports[`hello 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
-    },
-    "SubscriptionEmail000D00CED5E": {
-      "Properties": {
-        "Endpoint": "foo@example.com",
-        "Protocol": "email",
-        "TopicArn": {
-          "Ref": "NotificationTopicEB7A0DF1",
-        },
-      },
-      "Type": "AWS::SNS::Subscription",
     },
   },
   "Rules": {
