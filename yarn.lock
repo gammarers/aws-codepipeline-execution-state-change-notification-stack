@@ -442,10 +442,10 @@
   resolved "https://registry.yarnpkg.com/@gammarers/aws-cdk-errors/-/aws-cdk-errors-0.2.105.tgz#6bb16a2fda34f8c313aa37eddd8e69d24e11ec9b"
   integrity sha512-4lur0yb1xy4qfpeN/eKVaGTzQ/8ZT7YO2imOrPr5P7e9y1wW3XzBx/C+Au5Us0d7qLRtGiayu0xq8lJrBxCDqw==
 
-"@gammarers/aws-codesuite-state-change-detection-event-rules@^2.0.6":
-  version "2.1.21"
-  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.1.21.tgz#b061f639e1713958e13218d2c1958aafbc1d41db"
-  integrity sha512-oypUio6kcpplwQCL8k0kv3DyVhHl/NszqAakdZpzfBQAOH6X0beJiA7KKi7fATFKUhXD8NgX2TtAKvjtN34HvA==
+"@gammarers/aws-codesuite-state-change-detection-event-rules@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.2.5.tgz#ba325d61366cdecef34e2cb9453dfd53700ea171"
+  integrity sha512-dLo9OZ99ocQo5NVrTWjV2sDy9t+yp67MpFZtWd338KvicFSXD7eGzeB8hBaRcVhusEvSSSy6F16HfsA0X2osPg==
   dependencies:
     "@gammarers/aws-cdk-errors" "^0.2.0"
 
