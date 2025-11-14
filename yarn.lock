@@ -435,9 +435,9 @@
   integrity sha512-4lur0yb1xy4qfpeN/eKVaGTzQ/8ZT7YO2imOrPr5P7e9y1wW3XzBx/C+Au5Us0d7qLRtGiayu0xq8lJrBxCDqw==
 
 "@gammarers/aws-codesuite-state-change-detection-event-rules@^2.2.5":
-  version "2.2.29"
-  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.2.29.tgz#0b87d68480971ab75dc2e57d4d9351558f414b0c"
-  integrity sha512-hyqiidNknPILm/vJPVHQlXRdHgLcgZZ+tphENWpkN6AvP2IlzGKwXTSK2wXlw7CDD71AQjjlfzgoXhzhFyzPDA==
+  version "2.2.30"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.2.30.tgz#bd1724e9c880db72992ee132409b5aa3aeab1e60"
+  integrity sha512-BsQsqJM+yGdTpw1BtS/ZhlPUTsLAcbWKefFzBRDWGAUlE8pImx8MvJVrmiBKd4nVQhUDhPPnf+gFt6KCUMyzFA==
   dependencies:
     "@gammarers/aws-cdk-errors" "^0.2.0"
 
@@ -2184,9 +2184,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.249:
-  version "1.5.250"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.250.tgz#0b40436fa41ae7cbac3d2f60ef0411a698eb72a7"
-  integrity sha512-/5UMj9IiGDMOFBnN4i7/Ry5onJrAGSbOGo3s9FEKmwobGq6xw832ccET0CE3CkkMBZ8GJSlUIesZofpyurqDXw==
+  version "1.5.251"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.251.tgz#8168db0cb8fcc520bd4e5be720f2d8e0e4f7fe74"
+  integrity sha512-lmyEOp4G0XT3qrYswNB4np1kx90k6QCXpnSHYv2xEsUuEu8JCobpDVYO6vMseirQyyCC6GCIGGxd5szMBa0tRA==
 
 emittery@^0.13.1:
   version "0.13.1"
