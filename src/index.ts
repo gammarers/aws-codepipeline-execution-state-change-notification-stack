@@ -1,4 +1,4 @@
-import { CodePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
+import { CodePipelinePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
 import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType } from '@gammarers/aws-resource-naming';
 import { Duration, Names, Stack, StackProps } from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
@@ -83,7 +83,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends Stack {
     })();
 
     // 👇 Create EventBridge Rule
-    new CodePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
+    new CodePipelinePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
       ruleName: names.pipelineEventDetectionRuleName,
       enabled: enableRule,
       targets: [
