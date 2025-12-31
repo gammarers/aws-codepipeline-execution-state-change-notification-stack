@@ -59,13 +59,15 @@
     "typescript": "5.8.x"
   },
   "peerDependencies": {
-    "@gammarers/aws-resource-naming": "^0.10.2",
+    "@gammarers/aws-resource-naming": "^0.10.1",
+    "@gammarers/aws-sns-slack-message-lambda-subscription": "^0.2.4",
     "aws-cdk-lib": "^2.189.1",
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@gammarers/aws-codesuite-state-change-detection-event-rules": "^2.2.5",
-    "@gammarers/aws-resource-naming": "^0.10.2"
+    "@gammarers/aws-codesuite-state-change-detection-event-rules": "^2.3.6",
+    "@gammarers/aws-resource-naming": "^0.10.1",
+    "@gammarers/aws-sns-slack-message-lambda-subscription": "^0.2.4"
   },
   "keywords": [
     "aws",

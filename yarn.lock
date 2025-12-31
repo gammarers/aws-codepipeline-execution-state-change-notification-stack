@@ -395,17 +395,29 @@
   resolved "https://registry.yarnpkg.com/@gammarers/aws-cdk-errors/-/aws-cdk-errors-0.2.105.tgz#6bb16a2fda34f8c313aa37eddd8e69d24e11ec9b"
   integrity sha512-4lur0yb1xy4qfpeN/eKVaGTzQ/8ZT7YO2imOrPr5P7e9y1wW3XzBx/C+Au5Us0d7qLRtGiayu0xq8lJrBxCDqw==
 
-"@gammarers/aws-codesuite-state-change-detection-event-rules@^2.2.5":
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.3.5.tgz#607d435c65a1f1ef4aca5e1fc740012bb16ae6cc"
-  integrity sha512-UD5UV/Kh4/VfWvmRo78n3AyzlcBvR7dzmgmA3knIU/NZePlhV7LFM6oEY74aQkgvLap5iHwXX5LR3opTuJtSFA==
+"@gammarers/aws-codesuite-state-change-detection-event-rules@^2.3.6":
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-codesuite-state-change-detection-event-rules/-/aws-codesuite-state-change-detection-event-rules-2.3.6.tgz#b3fc1227d5f16036366dc507b9d6608f18cc8ea0"
+  integrity sha512-kadUuxUh4rSo18AkxfVZTDMImel0bCUvmwnAzqChWyG97POA4+dIUPUkgOuwoJHXrEsn9iw0v3hIWHrSRvNiTQ==
   dependencies:
     "@gammarers/aws-cdk-errors" "^0.2.0"
 
-"@gammarers/aws-resource-naming@^0.10.2":
+"@gammarers/aws-resource-naming@0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-resource-naming/-/aws-resource-naming-0.10.1.tgz#210fd589c10a86102d589bf0e6ceed236c180f1e"
+  integrity sha512-f7EMSndD3RzbfMmhRWYdPulM127RPSZF2QDa5QM6z8rvzoLX+X3ldyDZ0QmOPlmEjkxRN2UXWzeFnDj/onkdpg==
+
+"@gammarers/aws-resource-naming@^0.10.1":
   version "0.10.27"
   resolved "https://registry.yarnpkg.com/@gammarers/aws-resource-naming/-/aws-resource-naming-0.10.27.tgz#ea048e514284efbdb9a743d9163a8e7e98b4993b"
   integrity sha512-PQf43R+FLLXCvyPgCh2sx8ObJn35sK4lU++dO2sN90yFwVR8KyWyd+KKXJHa6wzFeJRtP/UPsTu8X+xOmi0PBg==
+
+"@gammarers/aws-sns-slack-message-lambda-subscription@^0.2.4":
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/@gammarers/aws-sns-slack-message-lambda-subscription/-/aws-sns-slack-message-lambda-subscription-0.2.23.tgz#023a00916c935d0d7ffc164f1352dc46bb7672e8"
+  integrity sha512-fQAPGo2S84RkSv5yxD2m6Q2UT5tyhqYPM2KAcstvrzvwI+tFw1/hLPaLnWvN+z/qXCzoWE2FsMrE/zrYokLlYg==
+  dependencies:
+    "@gammarers/aws-resource-naming" "0.10.1"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"

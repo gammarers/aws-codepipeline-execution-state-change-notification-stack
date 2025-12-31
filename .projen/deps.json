@@ -93,7 +93,12 @@
     },
     {
       "name": "@gammarers/aws-resource-naming",
-      "version": "^0.10.2",
+      "version": "^0.10.1",
+      "type": "peer"
+    },
+    {
+      "name": "@gammarers/aws-sns-slack-message-lambda-subscription",
+      "version": "^0.2.4",
       "type": "peer"
     },
     {
@@ -108,12 +113,17 @@
     },
     {
       "name": "@gammarers/aws-codesuite-state-change-detection-event-rules",
-      "version": "^2.2.5",
+      "version": "^2.3.6",
       "type": "runtime"
     },
     {
       "name": "@gammarers/aws-resource-naming",
-      "version": "^0.10.2",
+      "version": "^0.10.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@gammarers/aws-sns-slack-message-lambda-subscription",
+      "version": "^0.2.4",
       "type": "runtime"
     }
   ],
