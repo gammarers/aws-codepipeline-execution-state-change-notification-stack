@@ -13,11 +13,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/gammarers/aws-codepipeline-execution-state-change-notification-stack.git',
   deps: [
-    '@gammarers/aws-codesuite-state-change-detection-event-rules@^2.2.5',
-    '@gammarers/aws-resource-naming@^0.10.2',
+    '@gammarers/aws-codesuite-state-change-detection-event-rules@^2.3.6',
+    '@gammarers/aws-resource-naming@^0.10.1',
+    '@gammarers/aws-sns-slack-message-lambda-subscription@^0.2.4',
   ],
   peerDeps: [
-    '@gammarers/aws-resource-naming@^0.10.2',
+    '@gammarers/aws-resource-naming@^0.10.1',
+    '@gammarers/aws-sns-slack-message-lambda-subscription@^0.2.4',
   ],
   majorVersion: 2,
   releaseToNpm: true,

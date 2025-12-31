@@ -1,5 +1,6 @@
-import { CodePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
-import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType } from '@gammarers/aws-resource-naming';
+import { CodePipelinePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
+import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType } from '@gammarers/aws-resource-naming';
+import { SNSSlackMessageLambdaSubscription } from '@gammarers/aws-sns-slack-message-lambda-subscription';
 import { Duration, Names, Stack, StackProps } from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
@@ -8,16 +9,22 @@ import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
 import { NotificationStateMachine } from './resources/notification-state-machine';
 
-export { ResourceAutoNaming, ResourceDefaultNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType };
+export { CodePipelineExecutionStateChangeNotificationStackResourceNamingType };
 
 export interface TargetResourceProperty {
   readonly tagKey: string;
   readonly tagValues: string[];
 }
 
+export interface Slack {
+  readonly webhookSecretName: string;
+}
+
 export interface NotificationsProperty {
   readonly emails?: string[];
+  readonly slack?: Slack;
 }
+
 export interface CodePipelineExecutionStateChangeNotificationStackProps extends StackProps {
   readonly targetResource: TargetResourceProperty;
   readonly enabled?: boolean;
@@ -26,7 +33,7 @@ export interface CodePipelineExecutionStateChangeNotificationStackProps extends 
 }
 
 export interface CustomNaming {
-  readonly type: ResourceNamingType.CUSTOM;
+  readonly type: CodePipelineExecutionStateChangeNotificationStackResourceNamingType.CUSTOM;
   readonly stateMachineName: string;
   readonly notificationTopicName: string;
   readonly notificationTopicDisplayName: string;
@@ -66,6 +73,14 @@ export class CodePipelineExecutionStateChangeNotificationStack extends Stack {
       topic.addSubscription(new subscriptions.EmailSubscription(email));
     }
 
+    // 👇 Subscription slack webhook
+    if (props.notifications?.slack) {
+      new SNSSlackMessageLambdaSubscription(this, 'SNSSlackMessageLambdaSubscription', {
+        topic,
+        slackWebhookSecretName: props.notifications.slack.webhookSecretName,
+      });
+    }
+
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic
     // topic.addSubscription(new subs.UrlSubscription('https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'));
 
@@ -83,7 +98,7 @@ export class CodePipelineExecutionStateChangeNotificationStack extends Stack {
     })();
 
     // 👇 Create EventBridge Rule
-    new CodePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
+    new CodePipelinePipelineExecutionStateChangeDetectionEventRule(this, 'EventRule', {
       ruleName: names.pipelineEventDetectionRuleName,
       enabled: enableRule,
       targets: [

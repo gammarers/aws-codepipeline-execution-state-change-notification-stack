@@ -1273,6 +1273,7 @@ const notificationsProperty: NotificationsProperty = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.NotificationsProperty.property.emails">emails</a></code> | <code>string[]</code> | *No description.* |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.NotificationsProperty.property.slack">slack</a></code> | <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack">Slack</a></code> | *No description.* |
 
 ---
 
@@ -1283,6 +1284,44 @@ public readonly emails: string[];
 ```
 
 - *Type:* string[]
+
+---
+
+##### `slack`<sup>Optional</sup> <a name="slack" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.NotificationsProperty.property.slack"></a>
+
+```typescript
+public readonly slack: Slack;
+```
+
+- *Type:* <a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack">Slack</a>
+
+---
+
+### Slack <a name="Slack" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack"></a>
+
+#### Initializer <a name="Initializer" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack.Initializer"></a>
+
+```typescript
+import { Slack } from '@gammarers/aws-codepipeline-execution-state-change-notification-stack'
+
+const slack: Slack = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack.property.webhookSecretName">webhookSecretName</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `webhookSecretName`<sup>Required</sup> <a name="webhookSecretName" id="@gammarers/aws-codepipeline-execution-state-change-notification-stack.Slack.property.webhookSecretName"></a>
+
+```typescript
+public readonly webhookSecretName: string;
+```
+
+- *Type:* string
 
 ---
 
