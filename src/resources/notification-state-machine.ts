@@ -93,25 +93,16 @@ export class NotificationStateMachine extends sfn.StateMachine {
           },
         });
 
-        const generateTopicSubject = new sfn.Pass(scope, 'GenerateTopicSubject', {
-          resultPath: '$.Generate.Topic.Subject',
+        const generateMessage = new sfn.Pass(scope, 'GenerateMessage', {
+          resultPath: '$.Generate.Message',
           parameters: {
-            Value: sfn.JsonPath.format('{} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]',
+            Subject: sfn.JsonPath.format('{} [{}] AWS CodePipeline Pipeline Execution State Notification [{}][{}]',
               sfn.JsonPath.arrayGetItem(sfn.JsonPath.stringAt('$.Definition.StateEmojis[?(@.name == $.event.detail.state)].emoji'), 0),
               sfn.JsonPath.stringAt('$.event.detail.state'),
               sfn.JsonPath.stringAt('$.event.account'),
               sfn.JsonPath.stringAt('$.event.region'),
             ),
-          },
-        });
-
-        generatePipelineUrl.next(generateTopicSubject);
-
-        // 👇 Make send default & email message
-        const generateTopicTextMessage: sfn.Pass = new sfn.Pass(scope, 'GeneratedPipelineMessage', {
-          resultPath: '$.Generate.Topic.Message',
-          parameters: {
-            Value: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}\nURL : {}\n',
+            TextBody: sfn.JsonPath.format('Account : {}\nRegion : {}\nPipeline : {}\nState : {}\nTime : {}\nURL : {}\n',
               sfn.JsonPath.stringAt('$.event.account'),
               sfn.JsonPath.stringAt('$.event.region'),
               sfn.JsonPath.stringAt('$.event.detail.pipeline'),
@@ -121,8 +112,7 @@ export class NotificationStateMachine extends sfn.StateMachine {
             ),
           },
         });
-
-        generateTopicSubject.next(generateTopicTextMessage);
+        generatePipelineUrl.next(generateMessage);
 
         // 👇 Choice state for message
         const checkPipelineStateMatch: sfn.Choice = new sfn.Choice(scope, 'CheckPipelineStateMatch')
@@ -149,12 +139,12 @@ export class NotificationStateMachine extends sfn.StateMachine {
         // 👇 Send notification task
         const sendNotification: tasks.SnsPublish = new tasks.SnsPublish(scope, 'SendNotification', {
           topic: props.notificationTopic,
-          subject: sfn.JsonPath.stringAt('$.Generate.Topic.Subject.Value'),
-          message: sfn.TaskInput.fromJsonPathAt('$.Generate.Topic.Message.Value'),
+          subject: sfn.JsonPath.stringAt('$.Generate.Message.Subject'),
+          message: sfn.TaskInput.fromJsonPathAt('$.Generate.Message.TextBody'),
           resultPath: '$.snsResult',
         });
 
-        generateTopicTextMessage.next(sendNotification);
+        generateMessage.next(sendNotification);
 
         sendNotification.next(succeed);
         return sfn.DefinitionBody.fromChainable(initPipelineStateEmojisDefinition);

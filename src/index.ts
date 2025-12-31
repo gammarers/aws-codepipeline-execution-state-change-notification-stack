@@ -1,5 +1,5 @@
 import { CodePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
-import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType } from '@gammarers/aws-resource-naming';
+import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType } from '@gammarers/aws-resource-naming';
 import { Duration, Names, Stack, StackProps } from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
@@ -8,7 +8,7 @@ import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
 import { NotificationStateMachine } from './resources/notification-state-machine';
 
-export { ResourceAutoNaming, ResourceDefaultNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType };
+export { CodePipelineExecutionStateChangeNotificationStackResourceNamingType };
 
 export interface TargetResourceProperty {
   readonly tagKey: string;
@@ -26,7 +26,7 @@ export interface CodePipelineExecutionStateChangeNotificationStackProps extends 
 }
 
 export interface CustomNaming {
-  readonly type: ResourceNamingType.CUSTOM;
+  readonly type: CodePipelineExecutionStateChangeNotificationStackResourceNamingType.CUSTOM;
   readonly stateMachineName: string;
   readonly notificationTopicName: string;
   readonly notificationTopicDisplayName: string;
