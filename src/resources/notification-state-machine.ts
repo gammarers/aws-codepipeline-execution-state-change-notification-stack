@@ -17,17 +17,28 @@ export class NotificationStateMachine extends sfn.StateMachine {
         // 👇 Get Account
         const account = Stack.of(scope).account;
 
-        const initPipelineStateEmojisDefinition: sfn.Pass = new sfn.Pass(scope, 'InitPipelineStateEmojiDefinition', {
-          result: sfn.Result.fromObject([
-            { name: 'STARTED', emoji: '🥳' },
-            { name: 'SUCCEEDED', emoji: '🤩' },
-            { name: 'RESUMED', emoji: '🤔' },
-            { name: 'FAILED', emoji: '😫' },
-            { name: 'STOPPING', emoji: '😮' },
-            { name: 'STOPPED', emoji: '😌' },
-            { name: 'SUPERSEDED', emoji: '🧐' },
-          ]),
-          resultPath: '$.Definition.StateEmojis',
+        const initDefinition: sfn.Pass = new sfn.Pass(scope, 'InitDefinition', {
+          resultPath: '$.Definition',
+          parameters: {
+            StateEmojis: [
+              { name: 'STARTED', emoji: '🥳' },
+              { name: 'SUCCEEDED', emoji: '🤩' },
+              { name: 'RESUMED', emoji: '🤔' },
+              { name: 'FAILED', emoji: '😫' },
+              { name: 'STOPPING', emoji: '😮' },
+              { name: 'STOPPED', emoji: '😌' },
+              { name: 'SUPERSEDED', emoji: '🧐' },
+            ],
+            StateColors: [
+              { name: 'STARTED', color: '#00bfff' },
+              { name: 'SUCCEEDED', color: '#36a64f' },
+              { name: 'RESUMED', color: '#87cefa' },
+              { name: 'FAILED', color: '#ff0000' },
+              { name: 'STOPPING', color: '#ffff00' },
+              { name: 'STOPPED', color: '#ffd700' },
+              { name: 'SUPERSEDED', color: '#ffa500' },
+            ],
+          },
         });
 
         const succeed: sfn.Succeed = new sfn.Succeed(scope, 'Succeed');
@@ -45,7 +56,7 @@ export class NotificationStateMachine extends sfn.StateMachine {
             Arn: sfn.JsonPath.stringAt('$.Metadata.PipelineArn'),
           },
         });
-        initPipelineStateEmojisDefinition.next(getPipeline);
+        initDefinition.next(getPipeline);
 
         // 👇 Get Resources from resource arn list
         const getResourceTagMappingList: tasks.CallAwsService = new tasks.CallAwsService(scope, 'GetResourceTagMappingList', {
@@ -110,6 +121,46 @@ export class NotificationStateMachine extends sfn.StateMachine {
               sfn.JsonPath.stringAt('$.event.time'),
               sfn.JsonPath.stringAt('$.Generate.PipelineUrl.Value'),
             ),
+            SlackJsonBody: {
+              attachments: [
+                {
+                  color: sfn.JsonPath.arrayGetItem(sfn.JsonPath.stringAt('$.Definition.StateColors[?(@.name == $.event.detail.state)].color'), 0),
+                  // pretext: sfn.JsonPath.format('😴 Successfully stopped the automatically running RDS {} {}.',
+                  pretext: sfn.JsonPath.format('{} Pipeline {} state changed to {}',
+                    sfn.JsonPath.arrayGetItem(sfn.JsonPath.stringAt('$.Definition.StateEmojis[?(@.name == $.event.detail.state)].emoji'), 0),
+                    sfn.JsonPath.stringAt('$.event.detail.pipeline'),
+                    sfn.JsonPath.stringAt('$.event.detail.state'),
+                  ),
+                  fields: [
+                    {
+                      title: 'Account',
+                      value: sfn.JsonPath.stringAt('$.event.account'),
+                      short: true,
+                    },
+                    {
+                      title: 'Region',
+                      value: sfn.JsonPath.stringAt('$.event.region'),
+                      short: true,
+                    },
+                    {
+                      title: 'Pipeline',
+                      value: sfn.JsonPath.stringAt('$.event.detail.pipeline'),
+                      short: true,
+                    },
+                    {
+                      title: 'State',
+                      value: sfn.JsonPath.stringAt('$.event.detail.state'),
+                      short: true,
+                    },
+                    {
+                      title: 'Time',
+                      value: sfn.JsonPath.stringAt('$.event.time'),
+                      short: true,
+                    },
+                  ],
+                },
+              ],
+            },
           },
         });
         generatePipelineUrl.next(generateMessage);
@@ -140,14 +191,19 @@ export class NotificationStateMachine extends sfn.StateMachine {
         const sendNotification: tasks.SnsPublish = new tasks.SnsPublish(scope, 'SendNotification', {
           topic: props.notificationTopic,
           subject: sfn.JsonPath.stringAt('$.Generate.Message.Subject'),
-          message: sfn.TaskInput.fromJsonPathAt('$.Generate.Message.TextBody'),
+          message: sfn.TaskInput.fromObject({
+            default: sfn.JsonPath.stringAt('$.Generate.Message.TextBody'),
+            email: sfn.JsonPath.stringAt('$.Generate.Message.TextBody'),
+            lambda: sfn.JsonPath.jsonToString(sfn.JsonPath.objectAt('$.Generate.Message.SlackJsonBody')),
+          }),
+          messagePerSubscriptionType: true,
           resultPath: '$.snsResult',
         });
 
         generateMessage.next(sendNotification);
 
         sendNotification.next(succeed);
-        return sfn.DefinitionBody.fromChainable(initPipelineStateEmojisDefinition);
+        return sfn.DefinitionBody.fromChainable(initDefinition);
 
       })(),
     });

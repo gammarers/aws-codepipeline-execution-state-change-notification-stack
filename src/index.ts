@@ -1,5 +1,6 @@
 import { CodePipelinePipelineExecutionStateChangeDetectionEventRule } from '@gammarers/aws-codesuite-state-change-detection-event-rules';
 import { ResourceAutoNaming, ResourceDefaultNaming, ResourceNaming, ResourceNamingType as CodePipelineExecutionStateChangeNotificationStackResourceNamingType } from '@gammarers/aws-resource-naming';
+import { SNSSlackMessageLambdaSubscription } from '@gammarers/aws-sns-slack-message-lambda-subscription';
 import { Duration, Names, Stack, StackProps } from 'aws-cdk-lib';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
@@ -15,9 +16,15 @@ export interface TargetResourceProperty {
   readonly tagValues: string[];
 }
 
+export interface Slack {
+  readonly webhookSecretName: string;
+}
+
 export interface NotificationsProperty {
   readonly emails?: string[];
+  readonly slack?: Slack;
 }
+
 export interface CodePipelineExecutionStateChangeNotificationStackProps extends StackProps {
   readonly targetResource: TargetResourceProperty;
   readonly enabled?: boolean;
@@ -64,6 +71,14 @@ export class CodePipelineExecutionStateChangeNotificationStack extends Stack {
     const emails = props.notifications.emails ?? [];
     for (const email of emails) {
       topic.addSubscription(new subscriptions.EmailSubscription(email));
+    }
+
+    // 👇 Subscription slack webhook
+    if (props.notifications?.slack) {
+      new SNSSlackMessageLambdaSubscription(this, 'SNSSlackMessageLambdaSubscription', {
+        topic,
+        slackWebhookSecretName: props.notifications.slack.webhookSecretName,
+      });
     }
 
     // Subscribe a HTTP endpoint (Slack Webhook) to the topic
